@@ -1,0 +1,57 @@
+server:
+  port: ${PORT:9095}
+logging:
+  level:
+    com.ss.challenge.votesessionmanagerapi: INFO
+    org.springframework: INFO
+    org.apache.kafka: INFO
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} app=${spring.application.name}
+            %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint}
+            %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} M=%M
+            %m%n}'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+  health:
+    db:
+      enabled: true
+spring:
+  application:
+    name: vote-session-manager-api
+  devtools:
+    add-properties: false
+    restart:
+      log-condition-evaluation-delta:  false
+
+swagger:
+  message:
+    welcome: Vote Session Manager API
+    description: 'API para gestão de sessões de votões'
+    version: 1.0
+    contact:
+      name: Fernando meireles
+      email: 'fernando.meireles.filho@gmail.com'
+datasource:
+  driver-class-name: org.h2.Driver
+  validation-query: select 1 from dual
+  connection-test-query: select 1 from dual
+  test-on-borrow: true
+  initialization-mode: always
+  url: jdbc:h2:mem:test;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  username: VOTEMANAGER
+  password: test1234
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
