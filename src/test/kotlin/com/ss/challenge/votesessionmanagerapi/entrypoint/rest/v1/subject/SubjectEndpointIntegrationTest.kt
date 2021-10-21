@@ -16,7 +16,7 @@ class SubjectEndpointIntegrationTest : IntegrationBaseTest() {
     lateinit var subjectEndpoint: SubjectEndpoint
 
     @Test
-    fun `Correct execute a life cycle of a new subject`() {
+    fun `Should run a correct life cycle of a new subject`() {
 
         val newSubject = subjectEndpoint.create("Test")
         Assertions.assertEquals("Test", newSubject.subject)

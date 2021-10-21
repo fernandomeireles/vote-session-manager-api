@@ -6,9 +6,9 @@ import org.mockserver.integration.ClientAndServer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc
 @ExtendWith(SpringExtension::class)
 @ComponentScan("com.ss.challenge")
 @ActiveProfiles("test")
-@EnableFeignClients
+@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = ["classpath:clear-data.sql"])
 abstract class IntegrationBaseTest {
 
     @Autowired

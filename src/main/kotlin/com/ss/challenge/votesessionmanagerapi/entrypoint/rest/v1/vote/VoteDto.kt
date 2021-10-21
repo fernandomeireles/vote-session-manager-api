@@ -3,8 +3,11 @@ package com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.vote
 import java.time.LocalDateTime
 
 data class VoteDto(
-    val userId: Long,
-    val vote: Boolean,
-    val dateVote: LocalDateTime,
-    val voteId: Long
+    var idVote: Long?,
+    var userId: Long?,
+    var sessionId: Long?,
+    var isValid: Boolean,
+    var isApproved: Boolean,
+    var dateCreation: LocalDateTime,
+    var dateUpdate: LocalDateTime
 )

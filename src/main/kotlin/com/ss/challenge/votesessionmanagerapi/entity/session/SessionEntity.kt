@@ -1,5 +1,6 @@
-package com.ss.challenge.votesessionmanagerapi.entity.user
+package com.ss.challenge.votesessionmanagerapi.entity.session
 
+import com.ss.challenge.votesessionmanagerapi.core.usercase.subject.SubjectEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -7,18 +8,27 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.PrePersist
 import javax.persistence.PreUpdate
 
-@Entity(name = "USER")
-data class UserEntity(
+@Entity(name = "SESSION")
+data class SessionEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID_USER", unique = true)
+    @Column(name = "ID_SESSION", unique = true)
     var id: Long?,
 
-    @Column(name = "DES_CPF")
-    var cpf: String,
+    @ManyToOne
+    @JoinColumn(name = "ID_SUBJECT")
+    var subjectEntity: SubjectEntity,
+
+    @Column(name = "NUM_DURATION")
+    var duration: Long,
+
+    @Column(name = "DAT_END_SESSION")
+    var dateEnd: LocalDateTime,
 
     @Column(name = "DAT_CREATION")
     var dateCreation: LocalDateTime,
@@ -28,6 +38,7 @@ data class UserEntity(
 
     @Column(name = "FLG_ACTIVE")
     var isActive: Boolean
+
 ) : Serializable {
     @PrePersist
     fun persist() {

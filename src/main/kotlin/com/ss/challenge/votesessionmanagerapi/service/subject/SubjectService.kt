@@ -3,6 +3,7 @@ package com.ss.challenge.votesessionmanagerapi.service.subject
 import com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.subject.SubjectDto
 import com.ss.challenge.votesessionmanagerapi.repository.subject.SubjectRepository
 import com.ss.challenge.votesessionmanagerapi.service.subject.converter.SubjectConverter
+import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,8 +17,9 @@ class SubjectService(
     }
 
     override fun findSubjectActive(): List<SubjectDto>? {
-        return subjectRepository.findByIsActiveOrderByIdAsc()
-            ?.let { subjectConverter.listToDto(it) }
+        return subjectConverter.listToDto(
+            subjectRepository.findByIsActiveOrderByIdAsc() ?: throw SubjectNotFoundException(0L)
+        )
     }
 
     override fun find(idSubject: Long): SubjectDto? {
