@@ -2,14 +2,11 @@ package com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.subject
 
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
 import com.ss.challenge.votesessionmanagerapi.utils.IntegrationBaseTest
-import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 
-@ExtendWith(MockKExtension::class)
 class SubjectEndpointIntegrationTest : IntegrationBaseTest() {
 
     @Autowired

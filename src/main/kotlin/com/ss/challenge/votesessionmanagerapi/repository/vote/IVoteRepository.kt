@@ -1,4 +1,6 @@
 package com.ss.challenge.votesessionmanagerapi.repository.vote
 
-interface IVoteRepository {
-}
+import com.ss.challenge.votesessionmanagerapi.entity.vote.VoteEntity
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface IVoteRepository : JpaRepository<VoteEntity, Long>

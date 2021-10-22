@@ -40,7 +40,7 @@ class SubjectEndpoint(private var iSubjectService: ISubjectService) {
         return iSubjectService.findSubjectActive()
     }
 
-    @ApiOperation(value = "Get all subjects actives")
+    @ApiOperation(value = "Inactive subject Id")
     @PutMapping("/inactiveSubject/{idSubject}")
     fun putInactiveSubject(@NotNull @PathVariable idSubject: Long): SubjectDto? {
         return iSubjectService.inactiveSubject(idSubject)

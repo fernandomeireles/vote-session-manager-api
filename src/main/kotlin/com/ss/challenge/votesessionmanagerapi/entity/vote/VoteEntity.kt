@@ -28,7 +28,7 @@ data class VoteEntity(
     var userEntity: UserEntity,
 
     @ManyToOne
-    @JoinColumn(name = "ID_USER")
+    @JoinColumn(name = "ID_SESSION")
     var sessionEntity: SessionEntity,
 
     @Column(name = "FLG_VALID")

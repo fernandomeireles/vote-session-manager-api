@@ -1,6 +1,9 @@
 package com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.exception
 
+import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
+import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserNotFoundException
+import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteNotFoundException
 import org.apache.kafka.common.errors.AuthorizationException
 import org.apache.tomcat.websocket.AuthenticationException
 import org.hibernate.exception.ConstraintViolationException
@@ -54,7 +57,10 @@ class ControllerExceptionsHandler {
         EmptyResultDataAccessException::class,
         IndexOutOfBoundsException::class,
         KotlinNullPointerException::class,
-        SubjectNotFoundException::class
+        SubjectNotFoundException::class,
+        UserNotFoundException::class,
+        SessionNotFoundException::class,
+        VoteNotFoundException::class
     )
     fun notFoundException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
         return generateErrorResponse(HttpStatus.NOT_FOUND, "Resource not found", e)

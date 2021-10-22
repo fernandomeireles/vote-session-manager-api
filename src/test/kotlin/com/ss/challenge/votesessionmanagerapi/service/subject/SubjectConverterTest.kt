@@ -2,10 +2,12 @@ package com.ss.challenge.votesessionmanagerapi.service.subject
 
 import com.ss.challenge.votesessionmanagerapi.core.usercase.subject.SubjectEntity
 import com.ss.challenge.votesessionmanagerapi.service.subject.converter.SubjectConverter
+import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import java.time.LocalDateTime
 
@@ -19,6 +21,7 @@ class SubjectConverterTest {
     fun `Should convert single entity to Dto`() {
 
         val subjectDto = subjectConverter.toDto(SUBJECT_ENTITY)
+        Assertions.assertNotNull(subjectDto)
         Assertions.assertEquals(SUBJECT_ENTITY.id, subjectDto.idSubject)
         Assertions.assertEquals(SUBJECT_ENTITY.subject, subjectDto.subject)
         Assertions.assertEquals(SUBJECT_ENTITY.dateCreation, subjectDto.dateCreated)
@@ -43,6 +46,15 @@ class SubjectConverterTest {
         Assertions.assertEquals(SUBJECT_ENTITY_2.dateCreation, subjectDtoList[1].dateCreated)
         Assertions.assertEquals(SUBJECT_ENTITY_2.dateUpdate, subjectDtoList[1].dateUpdate)
         Assertions.assertEquals(SUBJECT_ENTITY_2.isActive, subjectDtoList[1].isActive)
+    }
+
+    @Test
+    fun `Should convert throw exception when entity is empty`() {
+
+        assertThrows<SubjectNotFoundException> {
+            val subjectDtoList =
+                subjectConverter.listToDto(arrayListOf())
+        }
     }
 
     companion object {
