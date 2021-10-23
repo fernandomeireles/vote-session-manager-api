@@ -46,6 +46,7 @@ dependencies {
     testImplementation("com.h2database:h2:1.3.148")
     testImplementation("org.springframework:spring-test:5.2.13.RELEASE")
     testImplementation("org.mock-server:mockserver-netty:5.11.2")
+    testImplementation("org.awaitility:awaitility-kotlin")
 }
 
 tasks.withType<KotlinCompile> {

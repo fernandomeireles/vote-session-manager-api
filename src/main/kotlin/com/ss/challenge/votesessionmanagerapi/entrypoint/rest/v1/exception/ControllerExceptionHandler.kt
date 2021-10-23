@@ -1,5 +1,6 @@
 package com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.exception
 
+import com.ss.challenge.votesessionmanagerapi.service.resultVoteSession.exception.NoResultVotesInSessionException
 import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotClosedException
 import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
@@ -64,8 +65,10 @@ class ControllerExceptionsHandler {
         SubjectNotFoundException::class,
         UserNotFoundException::class,
         SessionNotFoundException::class,
-        VoteNotFoundException::class
+        VoteNotFoundException::class,
+        NoResultVotesInSessionException::class
     )
+
     fun notFoundException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
         return generateErrorResponse(HttpStatus.NOT_FOUND, "Resource not found", e)
     }

@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
 
 @Entity(name = "RESULT_VOTE_SESSION")
-data class ResultVoteSession(
+data class ResultVoteSessionEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
