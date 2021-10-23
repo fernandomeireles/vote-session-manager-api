@@ -34,7 +34,7 @@ data class VoteEntity(
     @Column(name = "FLG_VALID")
     var isValid: Boolean,
 
-    @Column(name = "FLG_APPROVED")
+    @Column(name = "FLG_APPROVED_SESSION")
     var isApproved: Boolean,
 
     @Column(name = "DAT_CREATION")

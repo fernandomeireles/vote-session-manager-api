@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@Api(tags = ["vote-session-manager"])
+@Api(tags = ["Subject"])
 @RestController
 @Validated
 @RequestMapping("api/v1/subject")

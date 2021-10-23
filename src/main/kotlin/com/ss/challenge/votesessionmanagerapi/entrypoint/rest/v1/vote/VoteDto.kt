@@ -7,7 +7,7 @@ data class VoteDto(
     var userId: Long?,
     var sessionId: Long?,
     var isValid: Boolean,
-    var isApproved: Boolean,
+    var isApprovedSession: Boolean,
     var dateCreation: LocalDateTime,
     var dateUpdate: LocalDateTime
 )

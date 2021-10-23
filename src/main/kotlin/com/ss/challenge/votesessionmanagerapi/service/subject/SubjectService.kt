@@ -22,7 +22,7 @@ class SubjectService(
         )
     }
 
-    override fun find(idSubject: Long): SubjectDto? {
+    override fun find(idSubject: Long): SubjectDto {
         return subjectConverter.toDto(subjectRepository.find(idSubject))
     }
 

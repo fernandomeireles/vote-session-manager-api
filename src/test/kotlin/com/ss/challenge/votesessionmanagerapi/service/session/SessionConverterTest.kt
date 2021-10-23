@@ -2,9 +2,13 @@ package com.ss.challenge.votesessionmanagerapi.service.session
 
 import com.ss.challenge.votesessionmanagerapi.core.usercase.subject.SubjectEntity
 import com.ss.challenge.votesessionmanagerapi.entity.session.SessionEntity
+import com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.subject.SubjectDto
 import com.ss.challenge.votesessionmanagerapi.service.session.converter.SessionConverter
 import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotFoundException
+import com.ss.challenge.votesessionmanagerapi.service.subject.converter.SubjectConverter
+import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -16,6 +20,9 @@ import java.time.LocalDateTime
 class SessionConverterTest {
     @InjectMockKs
     lateinit var sessionConverter: SessionConverter
+
+    @MockK
+    lateinit var subjectConverter: SubjectConverter
 
     @Test
     fun `Should convert single entity to Dto`() {
@@ -68,6 +75,31 @@ class SessionConverterTest {
         }
     }
 
+    @Test
+    fun `Should convert single Dto to Entity`() {
+        val sessionDto = sessionConverter.toDto(SESSION_ENTITY)
+
+        every {
+            subjectConverter.toEntity(
+                any()
+            )
+        } answers {
+            SUBJECT_ENTITY
+        }
+
+        val sessionEntity = sessionConverter.toEntity(sessionDto, SUBJECT_DTO)
+
+        Assertions.assertNotNull(sessionEntity)
+        Assertions.assertEquals(SESSION_ENTITY.id, sessionEntity.id)
+        Assertions.assertEquals(SESSION_ENTITY.subjectEntity.id, sessionEntity.subjectEntity.id)
+        Assertions.assertEquals(SESSION_ENTITY.dateUpdate, sessionEntity.dateUpdate)
+        Assertions.assertEquals(SESSION_ENTITY.dateUpdate, sessionEntity.dateUpdate)
+        Assertions.assertEquals(SESSION_ENTITY.dateCreation, sessionEntity.dateCreation)
+        Assertions.assertEquals(SESSION_ENTITY.dateCreation, sessionEntity.dateCreation)
+        Assertions.assertEquals(SESSION_ENTITY.dateEnd, sessionEntity.dateEnd)
+        Assertions.assertEquals(SESSION_ENTITY.isActive, sessionEntity.isActive)
+    }
+
     companion object {
         val SESSION_ENTITY = SessionEntity(
             0L,
@@ -99,6 +131,22 @@ class SessionConverterTest {
             LocalDateTime.now(),
             LocalDateTime.now(),
             false
+        )
+
+        val SUBJECT_DTO = SubjectDto(
+            0L,
+            "Test",
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            true
+        )
+
+        val SUBJECT_ENTITY = SubjectEntity(
+            0L,
+            "Test",
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            true
         )
     }
 }

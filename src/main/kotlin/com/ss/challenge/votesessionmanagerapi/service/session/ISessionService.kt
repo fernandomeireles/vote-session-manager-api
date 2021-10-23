@@ -14,7 +14,7 @@ interface ISessionService {
 
     fun findAll(): List<SessionDto>
 
-    fun inactiveSession(sessionId: Long): SessionDto
+    fun inactiveSession(sessionId: Long, referenceDate: LocalDateTime): SessionDto
 
     fun validActiveSession(sessionId: Long, referenceDate: LocalDateTime): Boolean
 }

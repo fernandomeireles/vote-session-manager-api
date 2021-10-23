@@ -29,4 +29,14 @@ class UserConverter {
 
         return dtoList
     }
+
+    fun toEntity(dto: UserDto): UserEntity {
+        return UserEntity(
+            dto.idUser,
+            "",
+            dto.dateCreation,
+            dto.dateUpdate,
+            dto.isActive
+        )
+    }
 }

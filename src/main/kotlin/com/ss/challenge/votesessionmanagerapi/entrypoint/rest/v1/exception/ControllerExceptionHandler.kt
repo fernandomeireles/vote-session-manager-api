@@ -4,6 +4,7 @@ import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionN
 import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserNotFoundException
+import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteInvalidException
 import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteNotFoundException
 import org.apache.kafka.common.errors.AuthorizationException
 import org.apache.tomcat.websocket.AuthenticationException
@@ -28,7 +29,8 @@ class ControllerExceptionsHandler {
         MethodArgumentNotValidException::class,
         MissingServletRequestParameterException::class,
         IllegalArgumentException::class,
-        SessionNotClosedException::class
+        SessionNotClosedException::class,
+        VoteInvalidException::class
     )
     fun constraintViolationException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
         return generateErrorResponse(HttpStatus.BAD_REQUEST, "Bad request", e)

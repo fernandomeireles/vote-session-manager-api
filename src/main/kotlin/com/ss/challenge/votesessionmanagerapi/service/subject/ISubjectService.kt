@@ -8,7 +8,7 @@ interface ISubjectService {
 
     fun findSubjectActive(): List<SubjectDto>?
 
-    fun find(idSubject: Long): SubjectDto?
+    fun find(idSubject: Long): SubjectDto
 
     fun inactiveSubject(idSubject: Long): SubjectDto?
 }

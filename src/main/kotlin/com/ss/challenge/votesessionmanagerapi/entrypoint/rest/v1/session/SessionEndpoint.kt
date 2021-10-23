@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 
-@Api(tags = ["vote-session-manager"])
+@Api(tags = ["Session"])
 @RestController
 @Validated
 @RequestMapping("api/v1/session")
@@ -46,6 +47,6 @@ class SessionEndpoint(private val iSessionService: ISessionService) {
     @ApiOperation(value = "Close session")
     @PutMapping("/closeSession/{idSession}")
     fun putCloseSession(@NotNull @PathVariable idSession: Long): SessionDto? {
-        return iSessionService.inactiveSession(idSession)
+        return iSessionService.inactiveSession(idSession, LocalDateTime.now())
     }
 }

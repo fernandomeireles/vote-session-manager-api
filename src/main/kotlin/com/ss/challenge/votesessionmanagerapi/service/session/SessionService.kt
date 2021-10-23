@@ -42,10 +42,10 @@ class SessionService(
         return sessionConverter.listToDto(sessionRepository.findAll())
     }
 
-    override fun inactiveSession(sessionId: Long): SessionDto {
+    override fun inactiveSession(sessionId: Long, referenceDate: LocalDateTime): SessionDto {
         val session = sessionRepository.findById(sessionId)
 
-        if (isValidDate(session.dateEnd, LocalDateTime.now())) {
+        if (isValidDate(session.dateEnd, referenceDate)) {
             throw SessionNotClosedException(sessionId)
         }
 
@@ -55,7 +55,7 @@ class SessionService(
 
     override fun validActiveSession(sessionId: Long, referenceDate: LocalDateTime): Boolean {
         val session = sessionRepository.findById(sessionId)
-        return isValidDate(session.dateEnd, referenceDate)
+        return isValidDate(session.dateEnd, referenceDate) && session.isActive
     }
 
     private fun isValidDate(endDate: LocalDateTime, referenceDate: LocalDateTime): Boolean {

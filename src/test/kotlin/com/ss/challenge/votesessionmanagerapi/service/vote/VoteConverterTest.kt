@@ -31,7 +31,7 @@ class VoteConverterTest {
         Assertions.assertEquals(VOTE_ENTITY.dateUpdate, voteDto.dateUpdate)
         Assertions.assertEquals(VOTE_ENTITY.dateCreation, voteDto.dateCreation)
         Assertions.assertEquals(VOTE_ENTITY.isValid, voteDto.isValid)
-        Assertions.assertEquals(VOTE_ENTITY.isApproved, voteDto.isApproved)
+        Assertions.assertEquals(VOTE_ENTITY.isApproved, voteDto.isApprovedSession)
     }
 
     @Test
@@ -45,7 +45,7 @@ class VoteConverterTest {
         Assertions.assertEquals(VOTE_ENTITY.dateUpdate, voteListDto[0].dateUpdate)
         Assertions.assertEquals(VOTE_ENTITY.dateCreation, voteListDto[0].dateCreation)
         Assertions.assertEquals(VOTE_ENTITY.isValid, voteListDto[0].isValid)
-        Assertions.assertEquals(VOTE_ENTITY.isApproved, voteListDto[0].isApproved)
+        Assertions.assertEquals(VOTE_ENTITY.isApproved, voteListDto[0].isApprovedSession)
 
         Assertions.assertEquals(VOTE_ENTITY_2.id, voteListDto[1].idVote)
         Assertions.assertEquals(VOTE_ENTITY_2.sessionEntity.id, voteListDto[1].sessionId)
@@ -53,7 +53,7 @@ class VoteConverterTest {
         Assertions.assertEquals(VOTE_ENTITY_2.dateUpdate, voteListDto[1].dateUpdate)
         Assertions.assertEquals(VOTE_ENTITY_2.dateCreation, voteListDto[1].dateCreation)
         Assertions.assertEquals(VOTE_ENTITY_2.isValid, voteListDto[1].isValid)
-        Assertions.assertEquals(VOTE_ENTITY_2.isApproved, voteListDto[1].isApproved)
+        Assertions.assertEquals(VOTE_ENTITY_2.isApproved, voteListDto[1].isApprovedSession)
     }
 
     @Test

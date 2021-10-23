@@ -8,7 +8,7 @@ interface IUserService {
 
     fun findAll(): List<UserDto>?
 
-    fun findById(userId: Long): UserDto?
+    fun findById(userId: Long): UserDto
 
     fun inactiveUser(userId: Long): UserDto?
 }
