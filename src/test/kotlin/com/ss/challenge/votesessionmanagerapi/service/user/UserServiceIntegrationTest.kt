@@ -1,5 +1,7 @@
 package com.ss.challenge.votesessionmanagerapi.service.user
 
+import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserCpfNotFoundException
+import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserInvalidCpfException
 import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserNotFoundException
 import com.ss.challenge.votesessionmanagerapi.utils.IntegrationBaseTest
 import org.junit.jupiter.api.Assertions
@@ -15,7 +17,7 @@ class UserServiceIntegrationTest : IntegrationBaseTest() {
     @Test
     @Order(1)
     fun `Should throw error when not found user id`() {
-        assertThrows<UserNotFoundException> { val user = service.findById(999L) }
+        assertThrows<UserNotFoundException> { service.findById(999L) }
     }
 
     @Test
@@ -23,6 +25,18 @@ class UserServiceIntegrationTest : IntegrationBaseTest() {
     fun `Should not persisted duplicated id user`() {
         val user1 = service.create()
         val user2 = service.create()
+        val user3 = service.createWithCpf()
+        val user4 = service.createWithCpf()
+
         Assertions.assertNotEquals(user1.idUser, user2.idUser)
+        Assertions.assertNotEquals(user3.idUser, user4.idUser)
+    }
+
+    @Test
+    @Order(3)
+    fun `Should throw error when not found user cpf`() {
+        assertThrows<UserCpfNotFoundException> { service.findByCpf("123435") }
+
+        assertThrows<UserInvalidCpfException> { service.findByCpf("") }
     }
 }

@@ -11,4 +11,10 @@ interface IVoteService {
     ): VoteDto
 
     fun findVoteBySessionEntity(sessionId: Long): List<VoteDto>
+
+    fun createWithCpf(
+        sessionId: Long,
+        userCpf: String,
+        isAprovedSession: Boolean
+    ): VoteDto
 }

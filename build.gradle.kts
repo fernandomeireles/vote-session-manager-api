@@ -27,7 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:2.2.9.RELEASE")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:2.2.5.RELEASE")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -54,8 +54,17 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "1.8"
     }
+    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
+    targetCompatibility = JavaVersion.VERSION_1_8.toString()
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+        apiVersion = "1.4"
+        languageVersion = "1.4"
+    }
 }
 
 tasks.withType<Test> {
+    failFast = true
     useJUnitPlatform()
 }

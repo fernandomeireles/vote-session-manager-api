@@ -1,5 +1,6 @@
 package com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.user
 
+import com.ss.challenge.votesessionmanagerapi.entity.user.UserValidCpfEnum
 import com.ss.challenge.votesessionmanagerapi.service.user.IUserService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -24,10 +25,28 @@ class UserEndpoint(private val iUserService: IUserService) {
         return iUserService.create()
     }
 
+    @ApiOperation(value = "Creates a user with CPF, for the selected in vote session")
+    @PostMapping("/create/cpf")
+    fun createWithCpf(): UserDto {
+        return iUserService.createWithCpf()
+    }
+
     @ApiOperation(value = "Get a user by Id")
     @GetMapping("{idUser}")
     fun getUser(@NotNull @PathVariable idUser: Long): UserDto? {
         return iUserService.findById(idUser)
+    }
+
+    @ApiOperation(value = "Get a user by cpf")
+    @GetMapping("{cpf}")
+    fun getUserByCpf(@NotNull @PathVariable cpf: String): UserDto? {
+        return iUserService.findByCpf(cpf)
+    }
+
+    @ApiOperation(value = "Validate a user by cpf")
+    @GetMapping("/validate/{cpf}")
+    fun getValidateUserByCpf(@NotNull @PathVariable cpf: String): UserValidCpfEnum {
+        return iUserService.validateCpf(cpf)
     }
 
     @ApiOperation(value = "Get all users")

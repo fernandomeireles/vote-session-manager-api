@@ -55,3 +55,7 @@ datasource:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+vote-session:
+  api-cpf-generator:
+    url: https://gerador.app/api
+    token: Bearer BbjJ1DLBc9b6Qx8cmNggwKQCBlFQRVWO3q0HxFND

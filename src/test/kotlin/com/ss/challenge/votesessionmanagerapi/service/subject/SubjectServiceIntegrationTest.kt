@@ -17,14 +17,14 @@ class SubjectServiceIntegrationTest : IntegrationBaseTest() {
     @Order(1)
     fun `Should throw error when not found subject id`() {
 
-        assertThrows<SubjectNotFoundException> { val subject = service.find(999L) }
+        assertThrows<SubjectNotFoundException> { service.find(999L) }
     }
 
     @Test
     @Order(2)
     fun `Should throw error when not found active subjects`() {
 
-        assertThrows<SubjectNotFoundException> { val subject = service.findSubjectActive() }
+        assertThrows<SubjectNotFoundException> { service.findSubjectActive() }
     }
 
     @Test

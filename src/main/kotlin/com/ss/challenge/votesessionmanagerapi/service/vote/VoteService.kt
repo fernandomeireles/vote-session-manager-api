@@ -58,6 +58,29 @@ class VoteService(
         )
     }
 
+    override fun createWithCpf(
+        sessionId: Long,
+        userCpf: String,
+        isAprovedSession: Boolean
+    ): VoteDto {
+        val user = userConverter.toEntity(
+            userService.findByCpf(userCpf)
+        )
+
+        val session = loadSession(sessionId)
+
+        isValidVote(sessionId, user)
+
+        return voteConverter.toDto(
+            voteRepository.create(
+                session,
+                user,
+                true,
+                isAprovedSession
+            )
+        )
+    }
+
     private fun isValidVote(sessionId: Long, user: UserEntity) {
         isValidSession(sessionId)
         isValidUser(user)

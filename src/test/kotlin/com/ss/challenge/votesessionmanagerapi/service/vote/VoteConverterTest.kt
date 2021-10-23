@@ -60,8 +60,7 @@ class VoteConverterTest {
     fun `Should convert throw exception when entity is empty`() {
 
         assertThrows<VoteNotFoundException> {
-            val voteDtoList =
-                voteConverter.listToDto(arrayListOf())
+            voteConverter.listToDto(arrayListOf())
         }
     }
 

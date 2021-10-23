@@ -1,6 +1,7 @@
 package com.ss.challenge.votesessionmanagerapi.repository.user
 
 import com.ss.challenge.votesessionmanagerapi.entity.user.UserEntity
+import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserCpfNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserNotFoundException
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -20,6 +21,18 @@ class UserRepository(private val repository: IUserRepository) {
         )
     }
 
+    fun create(cpf: String): UserEntity {
+        return repository.save(
+            UserEntity(
+                null,
+                cpf,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                true
+            )
+        )
+    }
+
     fun update(userEntity: UserEntity): UserEntity {
         return repository.save(userEntity)
     }
@@ -31,6 +44,12 @@ class UserRepository(private val repository: IUserRepository) {
     fun findById(userId: Long): UserEntity {
         return repository.findById(userId).orElseThrow {
             throw UserNotFoundException(userId)
+        }
+    }
+
+    fun findByCpf(cpf: String): UserEntity {
+        return repository.findByCpf(cpf).orElseThrow {
+            throw UserCpfNotFoundException(cpf)
         }
     }
 }

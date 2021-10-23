@@ -11,6 +11,7 @@ class UserConverter {
     fun toDto(userEntity: UserEntity): UserDto {
         return UserDto(
             userEntity.id,
+            userEntity.cpf,
             userEntity.dateCreation,
             userEntity.dateUpdate,
             userEntity.isActive
@@ -33,7 +34,7 @@ class UserConverter {
     fun toEntity(dto: UserDto): UserEntity {
         return UserEntity(
             dto.idUser,
-            "",
+            dto.cpf ?: "",
             dto.dateCreation,
             dto.dateUpdate,
             dto.isActive

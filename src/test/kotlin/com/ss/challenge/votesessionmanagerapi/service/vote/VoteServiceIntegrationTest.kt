@@ -51,7 +51,7 @@ class VoteServiceIntegrationTest : IntegrationBaseTest() {
         }
 
         assertThrows<VoteInvalidException> {
-            val vote = sessionNew?.idSession?.let {
+            sessionNew?.idSession?.let {
                 user.idUser?.let { it1 ->
                     voteService.create(
                         it,
@@ -68,7 +68,7 @@ class VoteServiceIntegrationTest : IntegrationBaseTest() {
         val userNew = user.idUser?.let { userService.inactiveUser(it) }
 
         assertThrows<VoteInvalidException> {
-            val vote = session.idSession?.let {
+            session.idSession?.let {
                 userNew?.idUser?.let { it1 ->
                     voteService.create(
                         it,
@@ -82,7 +82,7 @@ class VoteServiceIntegrationTest : IntegrationBaseTest() {
     @Test
     fun `Should throw exception when user try duplicated vote`() {
 
-        val vote1 = session.idSession?.let {
+        session.idSession?.let {
             user.idUser?.let { it1 ->
                 voteService.create(
                     it,
@@ -92,7 +92,7 @@ class VoteServiceIntegrationTest : IntegrationBaseTest() {
         }
 
         assertThrows<VoteInvalidException> {
-            val vote2 = session.idSession?.let {
+            session.idSession?.let {
                 user.idUser?.let { it1 ->
                     voteService.create(
                         it,

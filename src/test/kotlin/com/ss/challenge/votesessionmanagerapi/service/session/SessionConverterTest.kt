@@ -70,8 +70,7 @@ class SessionConverterTest {
     fun `Should convert throw exception when entity is empty`() {
 
         assertThrows<SessionNotFoundException> {
-            val sessionDtoList =
-                sessionConverter.listToDto(arrayListOf())
+            sessionConverter.listToDto(arrayListOf())
         }
     }
 

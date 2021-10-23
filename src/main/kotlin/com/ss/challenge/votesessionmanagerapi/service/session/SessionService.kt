@@ -23,7 +23,7 @@ class SessionService(
     ): SessionDto {
 
         val subjectEntity = subjectConverter.toEntity(
-            subjectService.find(subjectId) ?: throw SubjectNotFoundException(subjectId)
+            subjectService.find(subjectId)
         )
         return sessionConverter.toDto(
             sessionRepository.create(

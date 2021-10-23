@@ -65,8 +65,7 @@ class SubjectConverterTest {
     fun `Should convert throw exception when entity is empty`() {
 
         assertThrows<SubjectNotFoundException> {
-            val subjectDtoList =
-                subjectConverter.listToDto(arrayListOf())
+            subjectConverter.listToDto(arrayListOf())
         }
     }
 

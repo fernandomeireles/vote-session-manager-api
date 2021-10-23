@@ -4,6 +4,7 @@ import com.ss.challenge.votesessionmanagerapi.service.resultVoteSession.exceptio
 import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotClosedException
 import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
+import com.ss.challenge.votesessionmanagerapi.service.user.exception.CpfNotGeneratedException
 import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteInvalidException
 import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteNotFoundException
@@ -31,7 +32,8 @@ class ControllerExceptionsHandler {
         MissingServletRequestParameterException::class,
         IllegalArgumentException::class,
         SessionNotClosedException::class,
-        VoteInvalidException::class
+        VoteInvalidException::class,
+        CpfNotGeneratedException::class
     )
     fun constraintViolationException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
         return generateErrorResponse(HttpStatus.BAD_REQUEST, "Bad request", e)
