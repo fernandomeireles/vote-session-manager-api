@@ -1,5 +1,6 @@
 package com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.exception
 
+import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotClosedException
 import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserNotFoundException
@@ -26,7 +27,8 @@ class ControllerExceptionsHandler {
         HttpClientErrorException.BadRequest::class,
         MethodArgumentNotValidException::class,
         MissingServletRequestParameterException::class,
-        IllegalArgumentException::class
+        IllegalArgumentException::class,
+        SessionNotClosedException::class
     )
     fun constraintViolationException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
         return generateErrorResponse(HttpStatus.BAD_REQUEST, "Bad request", e)
@@ -70,7 +72,10 @@ class ControllerExceptionsHandler {
         Exception::class
     )
     fun internalServerErrorException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
-        return generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Generic internal error", e)
+        return generateErrorResponse(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "Generic internal error", e
+        )
     }
 
     private fun generateErrorResponse(
@@ -79,6 +84,12 @@ class ControllerExceptionsHandler {
         e: Exception
     ): ResponseEntity<ExceptionHandlerDto> {
 
-        return ResponseEntity(ExceptionHandlerDto(status, "$message - $e.localizedMessage"), status)
+        return ResponseEntity(
+            ExceptionHandlerDto(
+                status,
+                "$message - $e.localizedMessage"
+            ),
+            status
+        )
     }
 }

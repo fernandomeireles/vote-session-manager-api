@@ -23,7 +23,6 @@ class UserServiceIntegrationTest : IntegrationBaseTest() {
     fun `Should not persisted duplicated id user`() {
         val user1 = service.create()
         val user2 = service.create()
-
         Assertions.assertNotEquals(user1.idUser, user2.idUser)
     }
 }

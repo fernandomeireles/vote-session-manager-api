@@ -30,4 +30,14 @@ class SubjectConverter {
 
         return dtoList
     }
+
+    fun toEntity(subjectDto: SubjectDto): SubjectEntity {
+        return SubjectEntity(
+            subjectDto.idSubject,
+            subjectDto.subject,
+            subjectDto.dateCreated,
+            subjectDto.dateUpdate,
+            subjectDto.isActive
+        )
+    }
 }

@@ -29,6 +29,8 @@ class SubjectEndpointIntegrationTest : IntegrationBaseTest() {
         }
 
         val activedSubjects = subjectEndpoint.getActiveSubjects()
+        
+        Assertions.assertNotNull(activedSubjects)
 
         if (activedSubjects != null) {
             Assertions.assertFalse(activedSubjects.isEmpty())

@@ -1,6 +1,7 @@
 package com.ss.challenge.votesessionmanagerapi.service.subject
 
 import com.ss.challenge.votesessionmanagerapi.core.usercase.subject.SubjectEntity
+import com.ss.challenge.votesessionmanagerapi.entrypoint.rest.v1.subject.SubjectDto
 import com.ss.challenge.votesessionmanagerapi.service.subject.converter.SubjectConverter
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
 import io.mockk.impl.annotations.InjectMockKs
@@ -27,6 +28,18 @@ class SubjectConverterTest {
         Assertions.assertEquals(SUBJECT_ENTITY.dateCreation, subjectDto.dateCreated)
         Assertions.assertEquals(SUBJECT_ENTITY.dateUpdate, subjectDto.dateUpdate)
         Assertions.assertEquals(SUBJECT_ENTITY.isActive, subjectDto.isActive)
+    }
+
+    @Test
+    fun `Should convert single dto to entity`() {
+
+        val subjectEntity = subjectConverter.toEntity(SUBJECT_DTO)
+        Assertions.assertNotNull(subjectEntity)
+        Assertions.assertEquals(SUBJECT_DTO.idSubject, subjectEntity.id)
+        Assertions.assertEquals(SUBJECT_DTO.subject, subjectEntity.subject)
+        Assertions.assertEquals(SUBJECT_DTO.dateCreated, subjectEntity.dateCreation)
+        Assertions.assertEquals(SUBJECT_DTO.dateUpdate, subjectEntity.dateUpdate)
+        Assertions.assertEquals(SUBJECT_DTO.isActive, subjectEntity.isActive)
     }
 
     @Test
@@ -59,6 +72,14 @@ class SubjectConverterTest {
 
     companion object {
         val SUBJECT_ENTITY = SubjectEntity(
+            0L,
+            "Test",
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            true
+        )
+
+        val SUBJECT_DTO = SubjectDto(
             0L,
             "Test",
             LocalDateTime.now(),
