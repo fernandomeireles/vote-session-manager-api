@@ -48,9 +48,8 @@ class UserService(
     }
 
     override fun validateCpf(cpf: String): UserValidCpfEnum {
-        val cpf = cpfGeneratorService.validateCpf(cpf)
 
-        return if (cpf.status) {
+        return if (cpfGeneratorService.validateCpf(cpf).status) {
             UserValidCpfEnum.ABLE_TO_VOTE
         } else {
             UserValidCpfEnum.UNABLE_TO_VOTE

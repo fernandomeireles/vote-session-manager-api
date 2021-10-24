@@ -11,8 +11,15 @@ import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectN
 import com.ss.challenge.votesessionmanagerapi.service.user.IUserService
 import com.ss.challenge.votesessionmanagerapi.service.user.converter.UserConverter
 import com.ss.challenge.votesessionmanagerapi.service.vote.converter.VoteConverter
+import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteCapacityExceededException
+import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteCpfCapacityExceededException
 import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteInvalidException
+import io.github.bucket4j.Bandwidth
+import io.github.bucket4j.Bucket
+import io.github.bucket4j.Bucket4j
+import io.github.bucket4j.Refill
 import org.springframework.stereotype.Service
+import java.time.Duration
 import java.time.LocalDateTime
 
 @Service
@@ -31,6 +38,10 @@ class VoteService(
         userId: Long,
         isAprovedSession: Boolean
     ): VoteDto {
+
+        if (!BUCKET.tryConsume(1L)) {
+            throw VoteCapacityExceededException(sessionId, userId, isAprovedSession)
+        }
 
         val user = userConverter.toEntity(
             userService.findById(userId)
@@ -63,6 +74,11 @@ class VoteService(
         userCpf: String,
         isAprovedSession: Boolean
     ): VoteDto {
+
+        if (!BUCKET.tryConsume(1L)) {
+            throw VoteCpfCapacityExceededException(sessionId, userCpf, isAprovedSession)
+        }
+
         val user = userConverter.toEntity(
             userService.findByCpf(userCpf)
         )
@@ -121,5 +137,11 @@ class VoteService(
             sessionDto.subjectId ?: throw SubjectNotFoundException(0L)
         )
         return sessionConverter.toEntity(sessionDto, subjectDto)
+    }
+
+    companion object {
+        var BUCKET: Bucket = Bucket4j.builder()
+            .addLimit(Bandwidth.classic(180, Refill.greedy(180, Duration.ofMinutes(1))))
+            .build()
     }
 }

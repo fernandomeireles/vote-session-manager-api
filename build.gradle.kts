@@ -34,6 +34,7 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:2.10.5")
+    implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:6.0.2")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("mysql:mysql-connector-java")

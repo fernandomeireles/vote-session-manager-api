@@ -37,7 +37,7 @@ class VoteServiceIntegrationTest : IntegrationBaseTest() {
     fun init() {
         user = userService.create()
         subject = subjectService.create("Test")
-        session = subject.idSubject?.let { sessionService.create(it, 1L) }!!
+        session = subject.idSubject?.let { sessionService.create(it, 3L) }!!
     }
 
     @Test
@@ -118,6 +118,7 @@ class VoteServiceIntegrationTest : IntegrationBaseTest() {
         }
 
         Assertions.assertNotNull(vote1)
+
         val vote2 = session.idSession?.let {
             user2.idUser?.let { it1 ->
                 voteService.create(
