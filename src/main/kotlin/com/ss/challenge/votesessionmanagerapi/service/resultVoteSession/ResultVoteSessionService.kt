@@ -4,6 +4,7 @@ import com.ss.challenge.votesessionmanagerapi.entity.resultVoteSession.ResultSta
 import com.ss.challenge.votesessionmanagerapi.entity.resultVoteSession.ResultVoteSessionEntity
 import com.ss.challenge.votesessionmanagerapi.entity.session.SessionEntity
 import com.ss.challenge.votesessionmanagerapi.repository.resultVoteSession.ResultVoteSessionRepository
+import com.ss.challenge.votesessionmanagerapi.service.producer.ResultVoteSessionServiceProducer
 import com.ss.challenge.votesessionmanagerapi.service.resultVoteSession.exception.NoResultVotesInSessionException
 import com.ss.challenge.votesessionmanagerapi.service.resultVoteSession.vo.ResultVoteSessionVo
 import com.ss.challenge.votesessionmanagerapi.service.session.ISessionService
@@ -22,7 +23,8 @@ class ResultVoteSessionService(
     private val iSessionService: ISessionService,
     private val sessionConverter: SessionConverter,
     private val iSubjectService: ISubjectService,
-    private val voteService: IVoteService
+    private val voteService: IVoteService,
+    private val resulteVoteSessionServiceProducer: ResultVoteSessionServiceProducer
 ) :
     IResultVoteSession {
     override fun getResultVoteSession(sessionId: Long): ResultVoteSessionEntity {
@@ -31,17 +33,22 @@ class ResultVoteSessionService(
         val resultSession = resultVoteSessionRepository.findResultBySessionEntity(session)
 
         if (resultSession != null) {
+            resulteVoteSessionServiceProducer.post(resultSession)
             return resultSession
         }
 
         val resultCalculate = calculateResultSession(session)
 
-        return resultVoteSessionRepository.create(
+        val result = resultVoteSessionRepository.create(
             session,
             resultCalculate.resultPositivesVotes,
             resultCalculate.resultNegativesVotes,
             resultCalculate.resultStatus
         )
+
+        resulteVoteSessionServiceProducer.post(result)
+
+        return result
     }
 
     private fun validSession(sessionId: Long): SessionEntity {

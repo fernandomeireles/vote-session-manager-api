@@ -6,6 +6,8 @@ import com.ss.challenge.votesessionmanagerapi.service.session.exception.SessionN
 import com.ss.challenge.votesessionmanagerapi.service.subject.exception.SubjectNotFoundException
 import com.ss.challenge.votesessionmanagerapi.service.user.exception.CpfNotGeneratedException
 import com.ss.challenge.votesessionmanagerapi.service.user.exception.UserNotFoundException
+import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteCapacityExceededException
+import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteCpfCapacityExceededException
 import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteInvalidException
 import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteNotFoundException
 import org.apache.kafka.common.errors.AuthorizationException
@@ -73,6 +75,17 @@ class ControllerExceptionsHandler {
 
     fun notFoundException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
         return generateErrorResponse(HttpStatus.NOT_FOUND, "Resource not found", e)
+    }
+
+    @ExceptionHandler(
+        VoteCapacityExceededException::class,
+        VoteCpfCapacityExceededException::class
+    )
+    fun toManyRequestException(e: Exception): ResponseEntity<ExceptionHandlerDto> {
+        return generateErrorResponse(
+            HttpStatus.TOO_MANY_REQUESTS,
+            "Requests por minute exceeded, please wait 1 minute", e
+        )
     }
 
     @ExceptionHandler(

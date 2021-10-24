@@ -1,0 +1,61 @@
+{
+  "fields": [
+    {
+      "default": null,
+      "doc": "ID of session voted",
+      "name": "id_session",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "subject voted in session",
+      "name": "subject",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "negatives votes in session",
+      "name": "negative_vote",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "positive votes in session",
+      "name": "positive_vote",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Result of vote session",
+      "name": "result_vote_session",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Date execution vote session",
+      "name": "date_vote_session",
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ],
+  "name": "ResultVoteSession",
+  "namespace": "vote.result",
+  "type": "record"
+}

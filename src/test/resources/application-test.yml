@@ -28,7 +28,29 @@ spring:
     add-properties: false
     restart:
       log-condition-evaluation-delta:  false
-
+  kafka:
+    consumer:
+      group-id: ${spring.application.name}
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      max-poll-records: 100
+      auto-offset-reset: earliest
+      properties:
+        schema.registry.url: mock://unused
+        specific.avro.reader: true
+      listener:
+        ack-mode: BATCH
+        poll-timeout: 10000
+    producer:
+      acks: 1
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        schema.registry.url: mock://unused
+    topics:
+      result-vote-session: result-vote-session
+    client-id: ${spring.application.name}
 swagger:
   message:
     welcome: Vote Session Manager API

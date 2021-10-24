@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask
 
 plugins {
     id("org.springframework.boot") version "2.3.12.RELEASE"
@@ -20,7 +20,22 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("http://packages.confluent.io/maven/")
+        isAllowInsecureProtocol = true
+    }
 }
+
+buildscript {
+
+    dependencies {
+        classpath("com.commercehub.gradle.plugin:gradle-avro-plugin:0.20.0")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.12.RELEASE")
+    }
+}
+
+apply(plugin = "com.commercehub.gradle.plugin.avro")
+apply(plugin = "com.commercehub.gradle.plugin.avro-base")
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -35,37 +50,51 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:2.10.5")
     implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:6.0.2")
+    implementation("org.springframework.kafka:spring-kafka-test")
+    implementation("io.confluent:kafka-avro-serializer:5.3.0")
+    implementation("org.apache.avro:avro:1.9.0")
+    implementation("org.scala-lang:scala-library:2.12.11")
+
+    implementation("com.h2database:h2:1.3.148")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("mysql:mysql-connector-java")
     annotationProcessor("org.projectlombok:lombok")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("com.ninja-squad:springmockk:2.0.1")
     testImplementation("io.mockk:mockk:1.10.0")
-    implementation("com.h2database:h2:1.3.148")
     testImplementation("com.h2database:h2:1.3.148")
     testImplementation("org.springframework:spring-test:5.2.13.RELEASE")
     testImplementation("org.mock-server:mockserver-netty:5.11.2")
     testImplementation("org.awaitility:awaitility-kotlin")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
-    }
+tasks.withType<Test> {
+    failFast = true
+    useJUnitPlatform()
+}
+
+val generateAvro = tasks.register<com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask>(
+    "generateAvro"
+) {
+    source("src/main/avro")
+    setOutputDir(file("src/generated/java/avro"))
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
+
     sourceCompatibility = JavaVersion.VERSION_1_8.toString()
     targetCompatibility = JavaVersion.VERSION_1_8.toString()
+
+    dependsOn(tasks.getByName("generateAvro"))
 
     kotlinOptions {
         jvmTarget = "1.8"
         apiVersion = "1.4"
         languageVersion = "1.4"
+        freeCompilerArgs = listOf("-Xjsr305=strict")
     }
 }
 
-tasks.withType<Test> {
-    failFast = true
-    useJUnitPlatform()
-}
