@@ -25,7 +25,7 @@ Pré-requisitos-ambiente-execução:
 -SO: Distribuições Linux, devido a conteinerização
 
 Arquitetura da solução:
-![Alt text](relative/path/to/img.jpg?raw=true "Arquitetura da solução")
+![Alt text](relative/path/to/arquitetura-simplificada.png "Arquitetura da solução")
 
 Observações e decisões gerais:
 
@@ -53,8 +53,11 @@ Observações e decisões gerais:
 **Instruções para execução
 
 1-Na raiz do projeto execute no terminal: docker-compose up
+
 2-Para separar os logs e facilitar a visualização em outra aba, após os containers estarem up: sh start-api.sh
+
 3-Para verificar se a aplicação esta no ar, acesse: http://localhost:9095/actuator/health
+
 4-Com a aplicação up, acesse para visualizar os endpoints: http://localhost:9095/swagger-ui.html
 
 Regras implementadas:
