@@ -1,5 +1,4 @@
 import com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask
-import org.gradle.jvm.tasks.Jar
 
 plugins {
     id("org.springframework.boot") version "2.3.12.RELEASE"
@@ -8,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.5.31"
     kotlin("plugin.jpa") version "1.5.31"
     id("org.flywaydb.flyway") version "6.5.7"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
 group = "com.ss.challenge"
@@ -34,7 +34,7 @@ buildscript {
         classpath("com.commercehub.gradle.plugin:gradle-avro-plugin:0.20.0")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.12.RELEASE")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
-        classpath("com.github.jengelman.gradle.plugins:shadow:2.0.1")
+        classpath("gradle.plugin.com.github.johnrengelman:shadow:7.1.0")
     }
 }
 
@@ -111,4 +111,3 @@ val fatJar = task("fatJar", type = Jar::class) {
     sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
     from(sourcesMain.output)
 }
-
