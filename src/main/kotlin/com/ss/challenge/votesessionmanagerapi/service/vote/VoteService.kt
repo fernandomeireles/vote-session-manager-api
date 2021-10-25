@@ -141,7 +141,7 @@ class VoteService(
 
     companion object {
         var BUCKET: Bucket = Bucket4j.builder()
-            .addLimit(Bandwidth.classic(900, Refill.greedy(900, Duration.ofMinutes(1))))
+            .addLimit(Bandwidth.classic(200000, Refill.greedy(200000, Duration.ofMinutes(1))))
             .build()
     }
 }

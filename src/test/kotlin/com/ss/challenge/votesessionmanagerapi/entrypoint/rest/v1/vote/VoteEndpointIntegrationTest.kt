@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import java.time.LocalDateTime
 
 class VoteEndpointIntegrationTest : IntegrationBaseTest() {
     @Autowired
@@ -61,9 +62,9 @@ class VoteEndpointIntegrationTest : IntegrationBaseTest() {
 
     @Test
     @Order(2)
-    fun `Should run a correct life cycle of a new vote session for 500 votes por minute`() {
-
-        for (i in 1..500) {
+    fun `Should run a correct life cycle of a new vote session for 150000 votes por minute`() {
+        val localDateTime = LocalDateTime.now()
+        for (i in 1..150000) {
             userEndpoint.create()
         }
 
@@ -81,6 +82,7 @@ class VoteEndpointIntegrationTest : IntegrationBaseTest() {
 
         val voteBySession = voteService.findVoteBySessionEntity(sessionId)
 
-        Assertions.assertEquals(500, voteBySession.size)
+        Assertions.assertEquals(150000, voteBySession.size)
+        Assertions.assertTrue(LocalDateTime.now().isBefore(localDateTime.plusMinutes(1)))
     }
 }
