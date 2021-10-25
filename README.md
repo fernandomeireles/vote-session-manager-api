@@ -1,97 +1,106 @@
 # vote-session-manager-api
-API criada para o desafio da South System
+<h2>API criada para o desafio da South System</h2>
 <br/>
 <br/>
 Autor: Fernando Meireles
+<br/>
 Contato: fernando.meireles.filho@gmail.com
 <br/>
 <br/>
 <br/>
-Principais tecnologias utilizadas:
+<h2>Principais tecnologias utilizadas:</h2>
 <br/>
-Escrito em: Kotlin.
+<ul>
+<li>1. Escrito em: Kotlin.</li>
 <br/>
-Framework utilizado: Spring.
+<li>2. Framework utilizado: Spring.</li>
 <br/>
-Middleware para mensageria: Kafka.
+<li>3. Middleware para mensageria: Kafka.</li>
 <br/>
-Base de dados: MySql.
+<li>4. Base de dados: MySql.</li>
 <br/>
-Documentação api: Swagger.
+<li>5. Documentação api: Swagger.</li>
 <br/>
-Construção de ambiente: Docker e Docker Compose.
-<br/>
-<br/>
-<br/>
-Pré-requisitos-ambiente-execução:
-<br/>
--Java version 1.8
-<br/>
--Docker version 20.10.7 (ou superior)
-<br/>
--Docker Compose version 1.25.0 (ou superior)
-<br/>
--Portas utilizadas:
-<br/>
-9095 (app)
-<br/>
-29092 (kafka)
-<br/>
-22181 (zookeeper)
-<br/>
-3306 (mysql)
-<br/>
--SO: Distribuições Linux, devido a conteinerização
+<li>6. Construção de ambiente: Docker e Docker Compose.</li>
+</ul>
 <br/>
 <br/>
 <br/>
-Arquitetura da solução:
+<h2>Pré-requisitos-ambiente-execução:</h2>
+<br/>
+<ul>
+<li>1. Java version 1.8</li>
+<br/>
+<li>2. Docker version 20.10.7 (ou superior)</li>
+<br/>
+<li>3. Docker Compose version 1.25.0 (ou superior)</li>
+<br/>
+<li>4. Portas utilizadas:</li>
+<br/>
+  <ul>
+  <li>4.1. 9095 (app)</li>
+<br/>
+ <li>4.2. 29092 (kafka)</li>
+<br/>
+  <li>4.3. 22181 (zookeeper)</li>
+<br/>
+ <li> 4.4 3306 (mysql)</li>
+ </ul>   
+<br/>
+<li>5. SO: Distribuições Linux, devido a conteinerização</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<h2>Arquitetura da solução:</h2>
 ![arquitetura-simplificada](https://user-images.githubusercontent.com/29004741/138739147-aa29aa70-7261-4a9c-8523-76454938b0d5.png)
 <br/>
 <br/>
 <br/>
-Observações e decisões gerais:
+<h2>Observações e decisões gerais:</h2>
 <br/>
-1- Design de código -> A nomenclatura e organização se assemelha ao proposta no clean architecture, porém foi customizada e flexibilizada, pois para que frameworks, controllers, user cases e entities, fossem totalmente desacoplados geraria um enorme esforço, sendo que a solução é de pequeno porte, não possuindo grande cargas de negocios e não sendo planejada para que as camadas de frameworks, drivers, mude.
+<ul>
+<li>1. Design de código -> A nomenclatura e organização se assemelha ao proposta no clean architecture, porém foi customizada e flexibilizada, pois para que frameworks, controllers, user cases e entities, fossem totalmente desacoplados geraria um enorme esforço, sendo que a solução é de pequeno porte, não possuindo grande cargas de negocios e não sendo planejada para que as camadas de frameworks, drivers, mude.</li>
 <br/>
-2- Pensando em um ambiente em nuvem foi utilizado containers, a fim de facilitar a construção do ambiente e garantir o correto funcionamento do mesmo.
+<li>2. Pensando em um ambiente em nuvem foi utilizado containers, a fim de facilitar a construção do ambiente e garantir o correto funcionamento do mesmo.</li>
 <br/>
-3- Devido a possibilidade de utilizar o spring framework e boot, junto ao kotlin, mantendo os recursos do java e aumentando a produtividade, o mesmo foi utilizado, porém todas as operações realizadas podem ser realizadas no java junto ao spring.
+<li>3. Devido a possibilidade de utilizar o spring framework e boot, junto ao kotlin, mantendo os recursos do java e aumentando a produtividade, o mesmo foi utilizado, porém todas as operações realizadas podem ser realizadas no java junto ao spring.</li>
 <br/>
-4- A base de dados é inicializada via containers, porém suas tabelas são criadas via migração, através da lib flyway ao iniciar a aplicação.
+<li>4. A base de dados é inicializada via containers, porém suas tabelas são criadas via migração, através da lib flyway ao iniciar a aplicação.</li>
 <br/>
-5- A aplicação possui testes unitarios, integrados e integrados focados em performance.
+<li>5. A aplicação possui testes unitarios, integrados e integrados focados em performance.</li>
 <br/>
-6- Para questão 1 do projeto foi utilizado o serviço https://gerador.app capaz de gerar e validar cpfs, conforme solicitado.
+<li>6. Para questão 1 do projeto foi utilizado o serviço https://gerador.app capaz de gerar e validar cpfs, conforme solicitado.</li>
 <br/>
-7- Para questão 2 foi utilizado o Kafka como mensageria, apenas um broken simples, sendo que a aplicação apenas produz eventos, não possui consumers.
+<li>7. Para questão 2 foi utilizado o Kafka como mensageria, apenas um broken simples, sendo que a aplicação apenas produz eventos, não possui consumers.</li>
 <br/>
-8- Para questão 3 foi utilizado duas estrategias de performance.
+<li>8. Para questão 3 foi utilizado duas estrategias de performance.</li>
+<br/><ul>
+<li>8.1- Evitar o maximo possível querys complexas, que não utilizem o id(index), como referência. Toda a arquitetura de comunicação com a base de dados foi pensada par ser simples, assim não criando carga-los de escritas ou leitura na applicação.</li>
 <br/>
-8.1- Evitar o maximo possível querys complexas, que não utilizem o id(index), como referência. Toda a arquitetura de comunicação com a base de dados foi pensada par ser simples, assim não criando carga-los de escritas ou leitura na applicação.
+<li>8.2. Para evitar que milhares de requisições sejam executadas simultaneamente ou em curto espaço de tempo na api foi utilizado a lib Bucket4j, que define capacidade de requisição por minuto, e renovando a capacidade caso não seja utilizada.</li>
 <br/>
-8.2 - Para evitar que milhares de requisições sejam executadas simultaneamente ou em curto espaço de tempo na api foi utilizado a lib Bucket4j, que define capacidade de requisição por minuto, e renovando a capacidade caso não seja utilizada.
-<br/>
-8.3 - O ideal para performance no endpoint de votos, seria todo o serviço ser separado e a persistência possuir um topico\fila de mensageria em sua frente, assim todo o processo de validação seria assincrono e dividido em "validação se o voto pode ocorrer" e "persistẽncia do voto", pois por meio de um serviço de mensageria seria possível controlar "quando persistir" e caso a aplicação principal caia a outra continuaria no ar, a relação de instancias também seria quebrada e poderia existir em N para N, conforme necessidade de escala. Esta solução não foi desenvolvida, pois provavelmente seria considerada "over engineering"
-<br/>
-9- O versionamento da api inicialmente pode ser realizada via contexto dos endpoints, exemplo v1/user/create, v2/user/create, porém em grandes escalas usar a versão do endpoint como parametro também pode ser utilizado.
-<br/>
-<br/>
-<br/>
-Instruções para execução
-<br/>
-1-Na raiz do projeto execute no terminal: docker-compose up
-<br/>
-2-Para separar os logs e facilitar a visualização em outra aba, após os containers estarem up: sh start-api.sh
-<br/>
-3-Para verificar se a aplicação esta no ar, acesse: http://localhost:9095/actuator/health
-<br/>
-4-Com a aplicação up, acesse para visualizar os endpoints: http://localhost:9095/swagger-ui.html
+<li>8.3. O ideal para performance no endpoint de votos, seria todo o serviço ser separado e a persistência possuir um topico\fila de mensageria em sua frente, assim todo o processo de validação seria assincrono e dividido em "validação se o voto pode ocorrer" e "persistẽncia do voto", pois por meio de um serviço de mensageria seria possível controlar "quando persistir" e caso a aplicação principal caia a outra continuaria no ar, a relação de instancias também seria quebrada e poderia existir em N para N, conforme necessidade de escala. Esta solução não foi desenvolvida, pois provavelmente seria considerada "over engineering"
+</li><br/></ul>
+<li>9. O versionamento da api inicialmente pode ser realizada via contexto dos endpoints, exemplo v1/user/create, v2/user/create, porém em grandes escalas usar a versão do endpoint como parametro também pode ser utilizado.</li></li>
+</ul>
 <br/>
 <br/>
 <br/>
-Regras implementadas:
+<h2>Instruções para execução</h2>
+<br/><ul>
+<li>1. Na raiz do projeto execute no terminal: docker-compose up</li>
 <br/>
+<li>2. Para separar os logs e facilitar a visualização em outra aba, após os containers estarem up: sh start-api.sh</li>
+<br/>
+<li>3. Para verificar se a aplicação esta no ar, acesse: http://localhost:9095/actuator/health</li>
+<br/>
+<li>4. Com a aplicação up, acesse para visualizar os endpoints: http://localhost:9095/swagger-ui.html</li>
+<br/></ul>
+<br/>
+<br/>
+<h2>Regras implementadas:</h2>
+<br/><ul>
 Usuario:
 <br/>
 -Ambos endpoints (com e sem cpf) de criação de usuário gerão o mesmo sem precisar de informações.
@@ -99,6 +108,7 @@ Usuario:
 Sessão:
 <br/>
 -Assuntos inativos ou inexistentes não podem abrir sessão.
+<br/>
 Voto:
 <br/>
 -Apenas usuários ativos.
@@ -114,3 +124,4 @@ Voto:
 Resultado de sessão:
 <br/>
 -Apenas sessões fechadas (tempo expirado), podem possuir resultado extraido, assim impedindo que resultados incosistentes sejam gerados.
+</ul>
