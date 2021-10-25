@@ -81,7 +81,7 @@ Contato: fernando.meireles.filho@gmail.com
 <br/><ul>
 <li>8.1- Evitar o maximo possível querys complexas, que não utilizem o id(index), como referência. Toda a arquitetura de comunicação com a base de dados foi pensada par ser simples, assim não criando carga-los de escritas ou leitura na applicação.</li>
 <br/>
-<li>8.2. Para evitar que milhares de requisições sejam executadas simultaneamente ou em curto espaço de tempo na api foi utilizado a lib Bucket4j, que define capacidade de requisição por minuto, e renovando a capacidade caso não seja utilizada.</li>
+<li>8.2. Para evitar que milhares de requisições sejam executadas simultaneamente ou em curto espaço de tempo na api foi utilizado a lib Bucket4j, que define capacidade de requisição por minuto, e renovando a capacidade caso não seja utilizada. A funcionalidade foi testada possuindo limite e performance de 200 mil requisições por minuto</li>
 <br/>
 <li>8.3. O ideal para performance no endpoint de votos, seria todo o serviço ser separado e a persistência possuir um topico\fila de mensageria em sua frente, assim todo o processo de validação seria assincrono e dividido em "validação se o voto pode ocorrer" e "persistẽncia do voto", pois por meio de um serviço de mensageria seria possível controlar "quando persistir" e caso a aplicação principal caia a outra continuaria no ar, a relação de instancias também seria quebrada e poderia existir em N para N, conforme necessidade de escala. Esta solução não foi desenvolvida, pois provavelmente seria considerada "over engineering"
 </li><br/></ul>
@@ -122,7 +122,7 @@ Voto:
 <br/>
 -Usuarios não existem não podem votar.
 <br/>
--Solicitação maximo por minuto de 900 requisições.
+-Solicitação maximo por minuto de 200000 requisições.
 <br/>
 Resultado de sessão:
 <br/>
