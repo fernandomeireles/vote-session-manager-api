@@ -1,4 +1,5 @@
 import com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask
+import org.gradle.jvm.tasks.Jar
 
 plugins {
     id("org.springframework.boot") version "2.3.12.RELEASE"
@@ -32,11 +33,18 @@ buildscript {
     dependencies {
         classpath("com.commercehub.gradle.plugin:gradle-avro-plugin:0.20.0")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.12.RELEASE")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
+        classpath("com.github.jengelman.gradle.plugins:shadow:2.0.1")
     }
 }
 
 apply(plugin = "com.commercehub.gradle.plugin.avro")
 apply(plugin = "com.commercehub.gradle.plugin.avro-base")
+apply(plugin = "kotlin")
+apply(plugin = "kotlin-spring")
+apply(plugin = "org.springframework.boot")
+apply(plugin = "io.spring.dependency-management")
+apply(plugin = "com.github.johnrengelman.shadow")
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -56,6 +64,7 @@ dependencies {
     implementation("org.scala-lang:scala-library:2.12.11")
     runtimeOnly("mysql:mysql-connector-java:8.0.17")
     implementation("org.flywaydb:flyway-core:6.5.7")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -83,17 +92,23 @@ val generateAvro = tasks.register<com.commercehub.gradle.plugin.avro.GenerateAvr
     setOutputDir(file("src/generated/java/avro"))
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
-
-    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-    targetCompatibility = JavaVersion.VERSION_1_8.toString()
+val fatJar = task("fatJar", type = Jar::class) {
 
     dependsOn(tasks.getByName("generateAvro"))
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-        apiVersion = "1.4"
-        languageVersion = "1.4"
-        freeCompilerArgs = listOf("-Xjsr305=strict")
+    baseName = "vote-session-manager-api"
+    manifest {
+        attributes["Implementation-Title"] = "vote-session-manager-api"
+        attributes["Implementation-Version"] = version
+        attributes["Main-Class"] =
+            "com.ss.challenge.votesessionmanagerapi.VoteSessionManagerApiApplication.kt"
     }
+    from(
+        configurations.runtimeClasspath.get()
+            .onEach { println("add from dependencies: ${it.name}") }
+            .map { if (it.isDirectory) it else zipTree(it) }
+    )
+    val sourcesMain = sourceSets.main.get()
+    sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
+    from(sourcesMain.output)
 }
+
