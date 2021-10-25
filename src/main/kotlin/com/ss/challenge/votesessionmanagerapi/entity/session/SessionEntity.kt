@@ -16,7 +16,7 @@ import javax.persistence.PreUpdate
 @Entity(name = "SESSION")
 data class SessionEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_SESSION", unique = true)
     var id: Long?,
 

@@ -33,28 +33,45 @@ spring:
     restart:
       log-condition-evaluation-delta:  false
   kafka:
-    consumer:
-      group-id: ${spring.application.name}
-      bootstrap-servers: localhost:29092
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      max-poll-records: 100
-      auto-offset-reset: earliest
-      properties:
-        schema.registry.url: localhost:29092
-        specific.avro.reader: true
-      listener:
-        ack-mode: BATCH
-        poll-timeout: 10000
     producer:
       acks: 1
-      bootstrap-servers: localhost:29092
+      bootstrap-servers:
+        - localhost:29092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       properties:
-        schema.registry.url: localhost:29092
+        schema.registry.url: mock://unused
     topics:
       result-vote-session: result-vote-session
     client-id: ${spring.application.name}
+  datasource:
+    url: jdbc:mysql://localhost:3306/testedb?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: MySqlPass!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        ddl-auto: none
+        default-schema: testedb
+        dialect: org.hibernate.dialect.MySQLDialect
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.MySQLDialect
+      generate-ddl: false
+      show-sql: true
+      platform: org.hibernate.dialect.MySQLDialect
+      database: mysql
+
+  flyway:
+    locations: classpath:db/migration
+    baselineOnMigrate: true
+    user: root
+    password: MySqlPass!
+    schemas: testedb
+    url: jdbc:mysql://localhost:3306/testedb?allowPublicKeyRetrieval=true&useSSL=false
+
 
 swagger:
   message:
@@ -65,21 +82,4 @@ swagger:
       name: Fernando meireles
       email: 'fernando.meireles.filho@gmail.com'
 
-datasource:
-  driver-class-name: org.h2.Driver
-  validation-query: select 1 from dual
-  connection-test-query: select 1 from dual
-  test-on-borrow: true
-  initialization-mode: always
-  url: jdbc:h2:mem:test;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-  username: VOTEMANAGER
-  password: test1234
-  jpa:
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create-drop
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+

@@ -13,7 +13,7 @@ import javax.persistence.PreUpdate
 @Entity(name = "USER")
 data class UserEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_USER", unique = true)
     var id: Long?,
 

@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.5.31"
     kotlin("plugin.spring") version "1.5.31"
     kotlin("plugin.jpa") version "1.5.31"
+    id("org.flywaydb.flyway") version "6.5.7"
 }
 
 group = "com.ss.challenge"
@@ -50,16 +51,14 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:2.10.5")
     implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:6.0.2")
-    implementation("org.springframework.kafka:spring-kafka-test")
     implementation("io.confluent:kafka-avro-serializer:5.3.0")
     implementation("org.apache.avro:avro:1.9.0")
     implementation("org.scala-lang:scala-library:2.12.11")
-
-    implementation("com.h2database:h2:1.3.148")
+    runtimeOnly("mysql:mysql-connector-java:8.0.17")
+    implementation("org.flywaydb:flyway-core:6.5.7")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("mysql:mysql-connector-java")
     annotationProcessor("org.projectlombok:lombok")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -97,4 +96,3 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
         freeCompilerArgs = listOf("-Xjsr305=strict")
     }
 }
-

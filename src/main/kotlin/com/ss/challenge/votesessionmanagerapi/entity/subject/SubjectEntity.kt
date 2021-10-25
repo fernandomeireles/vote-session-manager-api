@@ -14,7 +14,7 @@ import javax.persistence.PreUpdate
 data class SubjectEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_SUBJECT", unique = true)
     var id: Long?,
 

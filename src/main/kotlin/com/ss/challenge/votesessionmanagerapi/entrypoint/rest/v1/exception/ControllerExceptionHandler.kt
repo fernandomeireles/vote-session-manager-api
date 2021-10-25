@@ -13,6 +13,7 @@ import com.ss.challenge.votesessionmanagerapi.service.vote.exception.VoteNotFoun
 import org.apache.kafka.common.errors.AuthorizationException
 import org.apache.tomcat.websocket.AuthenticationException
 import org.hibernate.exception.ConstraintViolationException
+import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -104,12 +105,23 @@ class ControllerExceptionsHandler {
         e: Exception
     ): ResponseEntity<ExceptionHandlerDto> {
 
+        logger.error(
+            "Error in request: m={}, s={}, error={}",
+            message,
+            status,
+            e.localizedMessage,
+            e
+        )
         return ResponseEntity(
             ExceptionHandlerDto(
                 status,
-                "$message - $e.localizedMessage"
+                "$message - ${e.localizedMessage}"
             ),
             status
         )
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(ControllerExceptionsHandler::class.java)
     }
 }

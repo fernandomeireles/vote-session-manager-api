@@ -14,7 +14,7 @@ import javax.persistence.OneToOne
 data class ResultVoteSessionEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_RESULT_SESSION", unique = true)
     var id: Long?,
 

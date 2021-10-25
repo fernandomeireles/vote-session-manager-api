@@ -32,13 +32,13 @@ class UserEndpoint(private val iUserService: IUserService) {
     }
 
     @ApiOperation(value = "Get a user by Id")
-    @GetMapping("{idUser}")
+    @GetMapping("/byId/{idUser}")
     fun getUser(@NotNull @PathVariable idUser: Long): UserDto? {
         return iUserService.findById(idUser)
     }
 
     @ApiOperation(value = "Get a user by cpf")
-    @GetMapping("{cpf}")
+    @GetMapping("/byCpf/{cpf}")
     fun getUserByCpf(@NotNull @PathVariable cpf: String): UserDto? {
         return iUserService.findByCpf(cpf)
     }

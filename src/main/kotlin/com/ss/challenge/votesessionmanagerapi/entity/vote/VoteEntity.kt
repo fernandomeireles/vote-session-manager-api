@@ -19,7 +19,7 @@ import javax.persistence.PreUpdate
 data class VoteEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_VOTE", unique = true)
     var id: Long?,
 
