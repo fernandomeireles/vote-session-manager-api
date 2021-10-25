@@ -53,7 +53,10 @@ Contato: fernando.meireles.filho@gmail.com
 <br/>
 <br/>
 <h2>Arquitetura da solução:</h2>
-![arquitetura-simplificada](https://user-images.githubusercontent.com/29004741/138739147-aa29aa70-7261-4a9c-8523-76454938b0d5.png)
+
+![arquitetura-simplificada](https://user-images.githubusercontent.com/29004741/138742626-2a702e70-fc18-4b23-996c-c58c2a68b09f.png)
+
+
 <br/>
 <br/>
 <br/>
