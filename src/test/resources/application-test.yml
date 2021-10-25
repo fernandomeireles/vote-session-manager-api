@@ -28,6 +28,27 @@ spring:
     add-properties: false
     restart:
       log-condition-evaluation-delta:  false
+  datasource:
+    url: jdbc:h2:mem:test;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: VOTEMANAGER
+    password: test1234
+    driver-class-name: org.h2.Driver
+    jpa:
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        ddl-auto: create-drop
+        dialect: org.hibernate.dialect.H2Dialect
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.H2Dialect
+      show-sql: true
+      generate-ddl: true
+      platform: org.hibernate.dialect.H2Dialect
+      database: h2
+  flyway:
+    enabled: false
+
   kafka:
     consumer:
       group-id: ${spring.application.name}
@@ -59,24 +80,6 @@ swagger:
     contact:
       name: Fernando meireles
       email: fernando.meireles.filho@gmail.com
-datasource:
-  driver-class-name: org.h2.Driver
-  validation-query: select 1 from dual
-  connection-test-query: select 1 from dual
-  test-on-borrow: true
-  initialization-mode: always
-  url: jdbc:h2:mem:test;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-  username: VOTEMANAGER
-  password: test1234
-  jpa:
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create-drop
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
 vote-session:
   api-cpf-generator:
     url: https://gerador.app/api

@@ -44,7 +44,7 @@ class EnableKafkaTest {
     }
 
     @Bean(ResultVoteSessionConfig.KAFKA_LISTENER_CONTAINER_FACTORY)
-    fun clientAdmissionKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<Long, ResultVoteSession> {
+    fun resultVoteSessionKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<Long, ResultVoteSession> {
         val factory = ConcurrentKafkaListenerContainerFactory<Long, ResultVoteSession>()
         factory.consumerFactory = consumerFactory()
         factory.setAutoStartup(true)

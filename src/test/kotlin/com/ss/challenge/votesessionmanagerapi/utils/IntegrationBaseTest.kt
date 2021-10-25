@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.context.web.WebAppConfiguration
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc
 @ContextConfiguration(classes = [EnableKafkaTest::class])
 @EnableFeignClients
 @ActiveProfiles("test")
+@TestPropertySource(locations = ["classpath:application-test.yml"])
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = ["classpath:clear-data.sql"])
 abstract class IntegrationBaseTest {
 
